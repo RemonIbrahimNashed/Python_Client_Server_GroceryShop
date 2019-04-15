@@ -7,13 +7,8 @@ from tkinter import *
 from PIL import ImageTk,Image
 import os 
 
-
 HOST = '127.0.0.1'
 PORT = 3000
-currency = 'LE/KG'
-total = ''
-default = '##'
-status = 'Disconnected' 
 
 def main(): 
 
@@ -30,15 +25,7 @@ def main():
         again = int(input("[-] Do you want to try again Enter (1) for Yes , (2) for No : "))
         if again != 1 :
             break 
-
-
-
-
-  
-
-    
-
-
+#Text User Interface
 def TUI():
     s = socket.socket()
 # try to open port in server 
@@ -93,7 +80,9 @@ class app():
         self.default = '##'
         self.status = 'Disconnected' 
         self.error = ''
+       
         self.s = socket.socket()
+       
         self.window = root
         self.window.geometry('700x700+500+270')
         self.window.resizable(0,0)
@@ -121,7 +110,7 @@ class app():
         self.appleNum = StringVar()
         self.bananaNum = StringVar()
 
-        # place the images 
+    # place the images 
         self.canvas0 = Canvas(self.window, width = 300, height = 300)
         self.canvas0.place(x=10,y=10)
         self.img0 = ImageTk.PhotoImage(Image.open("apple.jpg").resize((150, 150), Image.ANTIALIAS))  
@@ -188,17 +177,14 @@ class app():
             sys.exit()
         self.status = 'Connected'
         self.statusText.set('You are '+self.status)
-
-        
-
 # recieve the prices from the server 
         data = self.s.recv(1024)
         data = data.decode("UTF-8")
         data = json.loads(data)
-
         self.orangePrice.set(str(data['Orange_Price'])+currency )
         self.applePrice.set(str(data['Apple_Price'])+currency)
         self.bananaPrice.set(str(data['Banana_Price'])+currency)
+    
     def disconnect(self):
         self.s.shutdown(socket.SHUT_RDWR)
         self.s.close()
@@ -227,7 +213,7 @@ class app():
         data = data.decode('UTF-8')
         self.total = data
         self.totalPrice.set("Total Price : "+self.total+self.currency)
-        # self.disconnect()
+        
         
     
 if __name__ == '__main__':
