@@ -33,7 +33,7 @@ def TUI():
         s.connect((HOST, PORT))
         print("[-] socket connect to port " + str(PORT))
     except socket.error as msg:
-        print("Bind Failed.")
+        print("Bind Failed."+str(msg))
         sys.exit()
 # recieve the prices from the server 
     data = s.recv(1024)
@@ -181,9 +181,9 @@ class app():
         data = self.s.recv(1024)
         data = data.decode("UTF-8")
         data = json.loads(data)
-        self.orangePrice.set(str(data['Orange_Price'])+currency )
-        self.applePrice.set(str(data['Apple_Price'])+currency)
-        self.bananaPrice.set(str(data['Banana_Price'])+currency)
+        self.orangePrice.set(str(data['Orange_Price'])+self.currency )
+        self.applePrice.set(str(data['Apple_Price'])+self.currency)
+        self.bananaPrice.set(str(data['Banana_Price'])+self.currency)
     
     def disconnect(self):
         self.s.shutdown(socket.SHUT_RDWR)
